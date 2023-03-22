@@ -7,9 +7,23 @@ import { MdDeleteSweep } from "react-icons/md";
 function Todo() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
+  const [editId, setEditId] = useState(0);
   const addTodo = () => {
-    setTodos([...todos, { list: todo, id: Date.now() }]);
-    setTodo("");
+    if (todo !== "") {
+      setTodos([...todos, { list: todo, id: Date.now() }]);
+      setTodo("");
+    }
+    if (editId) {
+      const editTodo = todos.find((to) => to.id === editId);
+      const updateTodo = todos.map((to) =>
+        to.id === editTodo.id
+          ? (to = { id: to.id, list: todo })
+          : (to = { id: to.id, list: to.list })
+      );
+      setTodos(updateTodo);
+      setEditId(0);
+      setTodo("");
+    }
   };
   const submitHandle = (event) => {
     event.preventDefault();
@@ -30,6 +44,11 @@ function Todo() {
     });
     setTodos(complete);
   };
+  const onEdit = (id) => {
+    let editItem = todos.find((to) => to.id === id);
+    setTodo(editItem.list);
+    setEditId(editItem.id);
+  };
 
   return (
     <div className="container">
@@ -44,7 +63,7 @@ function Todo() {
           onChange={(event) => setTodo(event.target.value)}
         />
 
-        <button onClick={addTodo}>ADD</button>
+        <button onClick={addTodo}>{editId ? "EDIT" : "ADD"}</button>
       </form>
 
       <div className="list">
@@ -68,6 +87,7 @@ function Todo() {
                   className="list-items-icons"
                   id="edit"
                   title="Edit"
+                  onClick={() => onEdit(to.id)}
                 />
                 <MdDeleteSweep
                   className="list-items-icons"
