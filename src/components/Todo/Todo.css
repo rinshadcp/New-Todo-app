@@ -39,4 +39,30 @@ li {
   list-style-type: none;
   border-radius: 5px;
   padding: 10px;
+  font-size: medium;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.list-items {
+  display: flex;
+}
+.list-items .list-items-list {
+  flex: 1;
+}
+.list-items .list-items-icons {
+  padding-left: 5px;
+  font-size: 25px;
+  cursor: pointer;
+}
+#done {
+  color: green;
+}
+#edit {
+  color: blue;
+}
+#delete {
+  color: orange;
+}
+#list-item {
+  text-decoration: line-through;
+  opacity: 0.3;
 }
